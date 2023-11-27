@@ -2,11 +2,11 @@
 #include<stack>
 using namespace std;
 
-// Have to work on this.
+// Done
 
-void reverse_stack(stack<char>& st, int size, char data){
+void ele_btm(stack<char>& st,char data){
   // Base case
-  if(size <= 0){
+  if(st.empty()){
     st.push(data);
     return ;
   }
@@ -16,7 +16,7 @@ void reverse_stack(stack<char>& st, int size, char data){
   st.pop();
 
   // Recursive Call
-  reverse_stack(st, size-1, data);
+  ele_btm(st, data);
   st.push(temp);
 }
 
@@ -46,7 +46,7 @@ int main(){
 
   print_stack(st,st.size());
   cout << endl;
-  reverse_stack(st, st.size(), data);
+  ele_btm(st,data);
   print_stack(st,st.size());
   return 0;
 }
