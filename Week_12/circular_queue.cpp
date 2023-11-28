@@ -4,29 +4,37 @@ using namespace std;
 // Implementing Queue from Scratch : We can create it using Link list and also with Array. Its on you.
 
 // Class
-class queue_building{
+class circular_queue_building{
   public:
     int front = -1;
-    int rear = -1;    
-    // int size = rear + 1;
-    int size = 200; // Check with the Size, If you will set it then The code will work without any memory issue but in case of defining the size low and then pushing more value can cause issues with the memory.
-    int* q = new int[size];
-
-  // queue_building(int size){
-  //   q = new int[size];
-  //   this->size = size;
-  //   front = -1;
-  //   rear = -1;
-  // }
-
+    int rear = -1;
+    int capacity = 10;    
+    int size = 0;
+    int* q = new int[capacity];
+    
   // push value from the Queue
   void push_q(int value){
     if(front==-1)
       front++;
 
-    rear++;
-    q[rear] = value;
-    size = rear - front + 1;
+    if(rear == capacity-1){
+      rear = -1;
+    }
+
+    if(size == capacity){
+      cout << "Circular loop is full. Will not able to insert : " << value << endl;
+      return ;
+    }
+    else{
+      rear++;
+      q[rear] = value;
+    }
+
+    if(rear >= front)
+      size = rear - front + 1;
+    else
+      size = capacity - front + rear + 1;
+
   }
 
   // pop value from the Queue
@@ -36,11 +44,13 @@ class queue_building{
       return;
     }      
     if(rear == front){
-      front--;
-      rear--;
-      size--;
+      front=-1;
+      rear=-1;
+      size=0;
       return;
     }
+    if(front==capacity-1)
+      front = 0;
     if(rear==-1)
       cout << "Queue is Empty." << endl;
     else{
@@ -51,11 +61,22 @@ class queue_building{
 
   void print_queue(){
     
-    if(rear == -1)
+    if(size == 0){
       cout << "Queue is empty.";
-    else{
+      return ;
+    }
+    
+    if(rear >= front){
       for(int i=front;i<=rear;i++)
       cout << q[i] << " ";
+    }
+    if(rear < front){
+      for(int i=front;i<capacity;i++){
+        cout << q[i] << " ";
+      }
+      for(int i=0;i<=rear;i++){
+        cout << q[i] << " ";
+      }
     }
     cout << endl;
   }
@@ -90,23 +111,29 @@ class queue_building{
     return size;
   }
 
+  
+
 };
 
 
 
 int main() {
 
-  queue_building q;
+  circular_queue_building q;
 
   // Add element in Queue
-  q.push_q(-1);
-  q.push_q(20);
-  q.push_q(30);
-  q.push_q(40);
-  q.push_q(50);
-  q.push_q(60);
-  // q.pop_q();
+  // q.push_q(10);
+  // q.push_q(20);
+  // q.push_q(30);
+  // q.push_q(40);
+  // q.push_q(50);
+  // q.push_q(60);
+  // q.push_q(70);
+  // q.push_q(80);
+  // q.push_q(90);
+  // q.push_q(100);
   q.pop_q();
+  // q.push_q(110);
   cout << "front ele : ";
   q.front_q();
   cout << "back ele : ";
