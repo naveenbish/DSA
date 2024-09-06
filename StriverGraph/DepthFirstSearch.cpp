@@ -3,25 +3,17 @@
 #include<queue>
 using namespace std;
 
+void DFS(vector<int> adj[], int a, int vArr[], vector<int>& dfs){
 
-vector<int> BFS(int n, vector<int> adj[]){
-  int vArr[n+1] = {0};
-  vArr[1] = 1;
-  queue<int> q;
-  q.push(1);
-  vector<int> bfs;
-  while(!q.empty()){
-    int node = q.front();
-    q.pop();
-    bfs.push_back(node);
-    for(auto i:adj[node]){
-      if(!vArr[i]){
-        vArr[i] = 1;
-        q.push(i);
-      }
+  dfs.push_back(a);
+  vArr[a] = 1;
+
+  // recursion
+  for(auto i:adj[a]){
+    if(!vArr[i]){
+      DFS(adj, i, vArr,dfs);
     }
   }
-  return bfs;
 }
 
 
@@ -49,15 +41,13 @@ int main(){
     cout << endl;
   }
 
-
-  cout << "BFS List : " ;
-  vector<int> ans = BFS(n,adj);
-  for(int i=0;i<ans.size();i++){
-    cout << ans[i] << " ";
-  }
-
   cout << endl;
-
-
+  int vArr[n+1] = {0};
+  vector<int> dfs;
+  DFS(adj, 1,vArr,dfs);
+  for(auto i:dfs){
+    cout << i << " ";
+  }
+  cout << endl;
   return 0;
 }
